@@ -14,18 +14,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pks.demo.exception.ProductNotFoundException;
 import com.pks.demo.model.Category;
-import com.pks.demo.service.CategoryService;
+import com.pks.demo.service.impl.CategoryServiceImpl;
 
 @RestController
 public class CategoryController {
 	@Autowired
-	private CategoryService categoryService;
+	private CategoryServiceImpl categoryServiceImpl;
 
 	@RequestMapping(value="/categories", method=RequestMethod.GET)
 	public ResponseEntity<List<Category>> getAllCategory() {
 		List<Category> categories = new ArrayList<>();
 		try {
-			categories = categoryService.getAllCategory();
+			categories = categoryServiceImpl.getAllCategory();
 		} catch (ProductNotFoundException e) {
 			throw new ProductNotFoundException("No Categories Found");
 		}
@@ -36,10 +36,10 @@ public class CategoryController {
 	}
 
 	@RequestMapping(value = "/categories/{id}", method=RequestMethod.GET)
-	public ResponseEntity<Category> getCategory(@PathVariable int id) {
+	public ResponseEntity<Category> getCategory(@PathVariable Long id) {
 		Category category = null;
 		try {
-			category = categoryService.getCategory(id);
+			category = categoryServiceImpl.getCategory(id);
 		} catch (ProductNotFoundException e) {
 			throw new ProductNotFoundException("No Category found for the categoryId: " + id);
 		}
@@ -52,7 +52,7 @@ public class CategoryController {
 
 	@RequestMapping(value = "/categories", method = RequestMethod.POST)
 	public ResponseEntity<Category> saveCategory(@RequestBody Category category) {
-		if (categoryService.saveCategory(category)) {
+		if (categoryServiceImpl.saveCategory(category)) {
 			return new ResponseEntity<Category>(category, HttpStatus.CREATED);
 		} else {
 			return new ResponseEntity<Category>(category, HttpStatus.BAD_REQUEST);
@@ -60,8 +60,8 @@ public class CategoryController {
 	}
 
 	@RequestMapping(value = "/categories/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Category> updateCategory(@RequestBody Category category, @PathVariable int id) {
-		if (categoryService.updateCategory(id, category)) {
+	public ResponseEntity<Category> updateCategory(@RequestBody Category category, @PathVariable Long id) {
+		if (categoryServiceImpl.updateCategory(id, category)) {
 			return new ResponseEntity<Category>(category, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<Category>(category, HttpStatus.BAD_REQUEST);
@@ -69,11 +69,11 @@ public class CategoryController {
 	}
 
 	@RequestMapping(value = "/categories/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<Integer> deleteCategory(@PathVariable int id) {
-		if (categoryService.deleteCategory(id)) {
-			return new ResponseEntity<Integer>(id, HttpStatus.OK);
+	public ResponseEntity<Object> deleteCategory(@PathVariable Long id) {
+		if (categoryServiceImpl.deleteCategory(id)) {
+			return new ResponseEntity<Object>("Category deleted for categoryId: "+id, HttpStatus.OK);
 		} else {
-			return new ResponseEntity<Integer>(id, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Object>("Category not deleted for categoryId: "+id, HttpStatus.BAD_REQUEST);
 		}
 	}
 	

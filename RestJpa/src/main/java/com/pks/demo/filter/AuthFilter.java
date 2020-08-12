@@ -17,17 +17,17 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.pks.demo.service.RestUserDetailsService;
-import com.pks.demo.util.AuthUtil;
+import com.pks.demo.service.impl.AuthServiceImpl;
+import com.pks.demo.service.impl.RestUserDetailsServiceImpl;
 
 
 
 @Component
 public class AuthFilter extends OncePerRequestFilter {
 	@Autowired
-	private RestUserDetailsService restUserDetailsService;
+	private RestUserDetailsServiceImpl restUserDetailsServiceImpl;
 	@Autowired
-	private AuthUtil authUtil;
+	private AuthServiceImpl authServiceImpl;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -52,12 +52,12 @@ public class AuthFilter extends OncePerRequestFilter {
 
 		
 		if (authHeader != null) {
-			username = authUtil.extractUsername(authHeader);
+			username = authServiceImpl.extractUsername(authHeader);
 		}
 		if (username != null) {
-			UserDetails userDetails = restUserDetailsService.loadUserByUsername(username);
+			UserDetails userDetails = restUserDetailsServiceImpl.loadUserByUsername(username);
 			try {
-				if (authUtil.validateToken(authHeader)) {
+				if (authServiceImpl.validateToken(authHeader)) {
 					UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
 							userDetails, null, userDetails.getAuthorities());
 					usernamePasswordAuthenticationToken

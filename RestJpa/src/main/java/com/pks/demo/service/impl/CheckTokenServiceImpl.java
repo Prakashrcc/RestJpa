@@ -1,4 +1,4 @@
-package com.pks.demo.util;
+package com.pks.demo.service.impl;
 
 import java.sql.SQLException;
 
@@ -9,13 +9,15 @@ import org.springframework.stereotype.Service;
 
 import com.pks.demo.model.RestUser;
 import com.pks.demo.repository.RestUserRepository;
+import com.pks.demo.service.CheckTokenService;
 
 @Service
-public class CheckToken {
+public class CheckTokenServiceImpl implements CheckTokenService {
 	@Autowired
 	private RestUserRepository restUserRepository;
-	Logger logger = LoggerFactory.getLogger(CheckToken.class);
+	Logger logger = LoggerFactory.getLogger(CheckTokenServiceImpl.class);
 
+	@Override
 	public boolean compareToken(String token, String username) throws ClassNotFoundException, SQLException {
 
 		logger.info("compareToken() method accessed in CheckToken class with username: " + username);

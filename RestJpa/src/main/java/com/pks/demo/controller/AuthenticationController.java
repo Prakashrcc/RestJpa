@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pks.demo.dto.AuthenticationRequest;
 import com.pks.demo.model.Authtoken;
-import com.pks.demo.service.RestUserDetailsService;
-import com.pks.demo.util.AuthUtil;
-import com.pks.demo.util.AuthenticationRequest;
+import com.pks.demo.service.impl.AuthServiceImpl;
+import com.pks.demo.service.impl.RestUserDetailsServiceImpl;
 
 
 @RestController
@@ -26,9 +26,9 @@ public class AuthenticationController {
 	private AuthenticationManager authenticationManager;
 
 	@Autowired
-	private RestUserDetailsService restUserDetailsService;
+	private RestUserDetailsServiceImpl restUserDetailsServiceImpl;
 	@Autowired
-	private AuthUtil authUtil;
+	private AuthServiceImpl authServiceImpl;
 
 	Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
 
@@ -49,9 +49,9 @@ public class AuthenticationController {
 			throw new Exception("Incorrect userName or password", e);
 		}
 
-		UserDetails userDetails = restUserDetailsService.loadUserByUsername(username);
+		UserDetails userDetails = restUserDetailsServiceImpl.loadUserByUsername(username);
 		
-		String token = authUtil.generateToken(userDetails);
+		String token = authServiceImpl.generateToken(userDetails);
 		Cookie cookie = new Cookie("Auth", token);
 		response.addCookie(cookie);
 		Authtoken authtoken = new Authtoken(token);

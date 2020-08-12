@@ -1,4 +1,4 @@
-package com.pks.demo.util;
+package com.pks.demo.dto;
 
 public class AuthenticationRequest {
 	private String username;

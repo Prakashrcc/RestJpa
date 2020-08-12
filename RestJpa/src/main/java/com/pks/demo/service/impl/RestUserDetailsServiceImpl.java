@@ -1,4 +1,4 @@
-package com.pks.demo.service;
+package com.pks.demo.service.impl;
 
 import java.util.ArrayList;
 
@@ -16,14 +16,14 @@ import com.pks.demo.exception.ProductNotFoundException;
 import com.pks.demo.model.RestUser;
 
 @Service
-public class RestUserDetailsService implements UserDetailsService {
+public class RestUserDetailsServiceImpl implements UserDetailsService {
 	@Autowired
-	private RestUserService restUserService;
+	private RestUserServiceImpl restUserServiceImpl;
 	PasswordEncoder passwordEncoder;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		RestUser restUser = restUserService.getUser(username);
+		RestUser restUser = restUserServiceImpl.getUser(username);
 		if (restUser == null) {
 			throw new ProductNotFoundException("No user found with the username: " + username);
 		}

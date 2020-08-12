@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Category {
 
 	@Id
-	private int categoryId;
+	private Long categoryId;
 	private String categoryName;
 	@OneToMany(mappedBy = "category")
 	@JsonIgnore
@@ -23,26 +23,18 @@ public class Category {
 		super();
 	}
 
-	public Category(int categoryId, String categoryName, Set<Product> products) {
+	public Category(Long categoryId, String categoryName, Set<Product> products) {
 		super();
 		this.categoryId = categoryId;
 		this.categoryName = categoryName;
 		this.products = products;
 	}
 
-	public Set<Product> getProducts() {
-		return products;
-	}
-
-	public void setProducts(Set<Product> products) {
-		this.products = products;
-	}
-
-	public int getCategoryId() {
+	public Long getCategoryId() {
 		return categoryId;
 	}
 
-	public void setCategoryId(int categoryId) {
+	public void setCategoryId(Long categoryId) {
 		this.categoryId = categoryId;
 	}
 
@@ -54,4 +46,13 @@ public class Category {
 		this.categoryName = categoryName;
 	}
 
+	public Set<Product> getProducts() {
+		return products;
+	}
+
+	public void setProducts(Set<Product> products) {
+		this.products = products;
+	}
+
+	
 }

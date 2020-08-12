@@ -1,5 +1,4 @@
-package com.pks.demo.util;
-
+package com.pks.demo.service.impl;
 
 import java.sql.SQLException;
 
@@ -10,12 +9,15 @@ import org.springframework.stereotype.Service;
 
 import com.pks.demo.model.RestUser;
 import com.pks.demo.repository.RestUserRepository;
+import com.pks.demo.service.StoreTokenService;
+
 @Service
-public class StoreToken {
+public class StoreTokenServiceImpl implements StoreTokenService {
 	@Autowired
 	private RestUserRepository restUserRepository;
-	Logger logger = LoggerFactory.getLogger(StoreToken.class);
+	Logger logger = LoggerFactory.getLogger(StoreTokenServiceImpl.class);
 
+	@Override
 	public boolean saveToken(String token, String username) throws ClassNotFoundException, SQLException {
 		logger.info("saveToken() method accessed in StoreToken class with username: " + username);
 
