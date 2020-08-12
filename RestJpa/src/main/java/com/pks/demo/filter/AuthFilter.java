@@ -9,6 +9,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,6 +19,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.pks.demo.controller.ProductController;
 import com.pks.demo.service.impl.AuthServiceImpl;
 import com.pks.demo.service.impl.RestUserDetailsServiceImpl;
 
@@ -28,7 +31,7 @@ public class AuthFilter extends OncePerRequestFilter {
 	private RestUserDetailsServiceImpl restUserDetailsServiceImpl;
 	@Autowired
 	private AuthServiceImpl authServiceImpl;
-
+	Logger logger = LoggerFactory.getLogger(AuthFilter.class);
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
@@ -65,10 +68,10 @@ public class AuthFilter extends OncePerRequestFilter {
 					SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 				}
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
+				logger.error(e+" Exception occured for username: "+username);
 				
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
+				logger.error(e+" Exception occured for username: "+username);
 				
 			}
 
